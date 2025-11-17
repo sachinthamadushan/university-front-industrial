@@ -7,7 +7,7 @@ export const StudentPage = () => {
         <div className="p-6">
             <StudentForm/>
 
-        <div className="p-6 shadow-lg rounded-lg bg-white mt-6">
+        <div className="p-6 shadow-lg rounded-lg bg-white mt-6 overflow-x-auto">
             <h1 className="text-2xl font-bold flex items-center gap-3 mb-4">
                <FcList/> <span>Student List</span>
             </h1>
