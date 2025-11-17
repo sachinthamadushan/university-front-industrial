@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useState } from "react"
+import toast from "react-hot-toast";
 import { FcGraduationCap } from "react-icons/fc"
-
-
 
 export const StudentForm = () => {
 
@@ -37,25 +36,27 @@ const handleStudentSave = async (e:React.FormEvent) => {
             'Content-Type':'application/json'
         }
     })
-    httpRequest.post('/create',student)
-    .then(
-        (response) => {
-            alert(response.data.msg)
+    const savePromise = httpRequest.post('/create',student);
+    toast.promise(
+        savePromise,
+        {
+          loading:'Student is saving...',
+          success:<b>Student Save Successfully</b>,
+          error:<b>Student save failed</b>  
         }
+    ).then(
+
     ).catch(
-        (error) => {
-            console.error('Failed student save', error)
-            alert('Failed student save');
-        }
+        (error) => {console.error('Student save faild',error)}
     ).finally(
         () => {
-            setStudentNo('')
-            setFirstName('')
-            setLastName('')
-            setEmail('')
-            setDob('')
+            setStudentNo("")
+            setFirstName("")
+            setLastName("")
+            setEmail("")
+            setDob("")
         }
-    )
+    );
 }
 
     return (

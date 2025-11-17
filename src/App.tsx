@@ -5,6 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import { StudentPage } from "./pages/StudentPage";
 import { CoursePage } from "./pages/CoursePage";
 import { EnrollmentPage } from "./pages/EnrollmentPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -12,6 +13,19 @@ function App() {
       <header>
         <Navbar/>
       </header>
+      <Toaster
+        position="top-center"
+        toastOptions={
+          {
+            duration:3000,
+            style:{background:'#363636', color:'white'},
+            success:{
+              duration:2500,
+              iconTheme:{primary:'green', secondary:'black'}
+            }
+          }
+        }
+      />
       <main>
         <Routes>
           <Route path="/" element={<HomePage/>}></Route>
