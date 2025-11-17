@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useState } from "react"
+import React, { useState } from "react"
 import toast from "react-hot-toast";
 import { FcGraduationCap } from "react-icons/fc"
+import type { Student, StudentProps } from "../types/student";
 
-export const StudentForm = () => {
+export const StudentForm:React.FC<StudentProps> = ({onStudentAdded}) => {
 
 const [studetNo,setStudentNo] = useState<string>("");
 const [firstName,setFirstName] = useState<string>("");
@@ -11,21 +12,12 @@ const [lastName,setLastName] = useState<string>("");
 const [email,setEmail] = useState<string>("");
 const [dob,setDob] = useState<string>("");
 
-interface Student {
-    stuId:string,
-    fname:string,
-    lname:string,
-    email:string,
-    dob:string,
-    status:number
-}
-
 const handleStudentSave = async (e:React.FormEvent) => {
     e.preventDefault();
     const student:Student = {
-        stuId:studetNo,
-        fname:firstName,
-        lname:lastName,
+        student_id:studetNo,
+        first_name:firstName,
+        last_name:lastName,
         email:email,
         dob:dob,
         status:1
@@ -45,7 +37,7 @@ const handleStudentSave = async (e:React.FormEvent) => {
           error:<b>Student save failed</b>  
         }
     ).then(
-
+        onStudentAdded
     ).catch(
         (error) => {console.error('Student save faild',error)}
     ).finally(
