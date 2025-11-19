@@ -2,22 +2,17 @@ import { FcList } from "react-icons/fc";
 import { StudentForm } from "../components/StudentForm";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import type { Student } from "../types/student";
 import {format} from 'date-fns';
+import { studentAPI } from "../services/api";
+import toast from "react-hot-toast";
 
 export const StudentPage = () => {
   const [studentData, setStudentData] = useState<Student[]>([]);
 
   const fetchStudent = useCallback(
     async () => {
-    const httpRequest = axios.create({
-      baseURL: "http://localhost:3000/api/v1/students",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    httpRequest.get("/all").then(
+    studentAPI.getAll().then(
         (response) => {
             setStudentData(response.data.data)
         }
@@ -29,6 +24,24 @@ export const StudentPage = () => {
   useEffect(() => {
     fetchStudent();
   }, [fetchStudent]);
+
+  const deleteStudent = (studentId:string) => {
+    if(window.confirm('Are you want to delete the student?')){
+      const deletePromise = studentAPI.delete(studentId);
+      toast.promise(
+        deletePromise,
+        {
+          loading:'Student is deleting...',
+          success:'Student Delete Successfully',
+          error:'Student delete failed'
+        }
+      ).then(
+        () => fetchStudent()
+      ).catch(
+        (error) => console.error('Student delete failed',error) 
+      )
+    }
+  }
 
   return (
     <div className="p-6">
@@ -70,7 +83,7 @@ export const StudentPage = () => {
                   >
                     <BsPencil className="text-amber-500  hover:text-white" />
                   </button>
-                  <button
+                  <button onClick={()=> deleteStudent(student.student_id)}
                     className="border px-3 py-2 border-red-500
                                 rounded hover:bg-red-500 hover:border-0
                                 hover:shadow-md"
