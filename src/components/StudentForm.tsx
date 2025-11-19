@@ -1,21 +1,18 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, type ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { FcGraduationCap } from "react-icons/fc";
 import type { Student, StudentProps } from "../types/student";
 import { studentAPI } from "../services/api";
 
 export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
-  const [studentData, setStudentData] = useState<Student>(
-    {
-    student_id:"",
-    first_name:"",
-    last_name:"",
-    email:"",
-    dob:"",
-    status:1
-    }
-);
+  const [studentData, setStudentData] = useState<Student>({
+    student_id: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    dob: "",
+    status: 1,
+  });
 
   const handleStudentSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,14 +27,24 @@ export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
       .catch((error) => {
         console.error("Student save faild", error);
       })
-      .finally(() => {
-        
-      });
+      .finally(() => {resetForm()});
   };
 
-  const handleFormInputChanges = (e:React.FormEvent) => {
-    console.log(e.target.name +'='+ e.target.value)
-  }
+  const resetForm = () => {
+    setStudentData({
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      email: "",
+      dob: "",
+      status: 1,
+    });
+  };
+
+  const handleFormInputChanges = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setStudentData((p) => ({ ...p, [name]: value }));
+  };
 
   return (
     <form
@@ -57,24 +64,27 @@ export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
           placeholder="Student No"
           className="p-2 border rounded w-full"
           required
-          name="sno"
+          name="student_id"
           onChange={handleFormInputChanges}
+          value={studentData.student_id}
         />
         <input
           type="text"
           placeholder="Frist Name"
           className="p-2 border rounded w-full"
           required
-          name="fname"
+          name="first_name"
           onChange={handleFormInputChanges}
+          value={studentData.first_name}
         />
         <input
           type="text"
           placeholder="Last Name"
           className="p-2 border rounded w-full"
           required
-          name="lname"
+          name="last_name"
           onChange={handleFormInputChanges}
+          value={studentData.last_name}
         />
         <input
           type="email"
@@ -83,6 +93,7 @@ export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
           required
           name="email"
           onChange={handleFormInputChanges}
+          value={studentData.email}
         />
         <input
           type="date"
@@ -90,6 +101,7 @@ export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
           required
           name="dob"
           onChange={handleFormInputChanges}
+          value={studentData.dob}
         />
       </div>
       <button
