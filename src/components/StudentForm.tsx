@@ -1,10 +1,11 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { useEffect, useState, type ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { FcGraduationCap } from "react-icons/fc";
 import type { Student, StudentProps } from "../types/student";
 import { studentAPI } from "../services/api";
 
-export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
+export const StudentForm: React.FC<StudentProps> = 
+({ onStudentAdded,editingStudent }) => {
   const [studentData, setStudentData] = useState<Student>({
     student_id: "",
     first_name: "",
@@ -13,6 +14,24 @@ export const StudentForm: React.FC<StudentProps> = ({ onStudentAdded }) => {
     dob: "",
     status: 1,
   });
+
+  const isEditing:boolean = !!editingStudent; 
+
+  useEffect(
+    () => {
+        setStudentData(
+            {
+                student_id:editingStudent?.student_id ,
+                first_name:editingStudent?.first_name,
+                last_name:editingStudent?.last_name,
+                email:editingStudent?.email,
+                dob:editingStudent?.dob? 
+                new Date(editingStudent.dob).toISOString().split('T')[0]:undefined,
+                status:1
+            }
+        )
+    },[isEditing,editingStudent]
+  )
 
   const handleStudentSave = async (e: React.FormEvent) => {
     e.preventDefault();

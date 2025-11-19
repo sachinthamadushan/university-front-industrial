@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 export const StudentPage = () => {
   const [studentData, setStudentData] = useState<Student[]>([]);
+  const [editStudent,setEditStudent] = useState<Student|undefined>();
 
   const fetchStudent = useCallback(
     async () => {
@@ -24,6 +25,10 @@ export const StudentPage = () => {
   useEffect(() => {
     fetchStudent();
   }, [fetchStudent]);
+
+  const handleEditStudent = (student:Student) => {
+    setEditStudent(student)
+  }
 
   const deleteStudent = (studentId:string) => {
     if(window.confirm('Are you want to delete the student?')){
@@ -45,7 +50,7 @@ export const StudentPage = () => {
 
   return (
     <div className="p-6">
-      <StudentForm onStudentAdded={fetchStudent} />
+      <StudentForm onStudentAdded={fetchStudent} editingStudent={editStudent} />
 
       <div className="p-6 shadow-lg rounded-lg bg-white mt-6 overflow-x-auto">
         <h1 className="text-2xl font-bold flex items-center gap-3 mb-4">
@@ -76,7 +81,7 @@ export const StudentPage = () => {
               }</td>
               <td>
                 <div className="flex items-center gap-3">
-                  <button
+                  <button onClick={()=> handleEditStudent(student)}
                     className="border px-3 py-2 border-amber-500
                                 rounded hover:bg-amber-500 hover:border-0
                                 hover:shadow-md"
