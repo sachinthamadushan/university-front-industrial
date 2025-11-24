@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Student } from "../types/student";
+import type { Enrollment } from "../types/enrollment";
 
 const httpRequest = axios.create({
   baseURL: "http://localhost:3000/api/v1",
@@ -20,3 +21,8 @@ export const studentAPI = {
 export const courseAPI = {
   getAll: () => httpRequest.get("/courses/all"),
 };
+
+export const enrollmentAPI = {
+  create: (enrollment:Enrollment) => httpRequest.post('/enrollments/create',enrollment),
+  getAll: () => httpRequest.get('/enrollments/all')
+}
