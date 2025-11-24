@@ -9,7 +9,14 @@ const httpRequest = axios.create({
 });
 
 export const studentAPI = {
-    create:(student:Student) => httpRequest.post('/students/create',student),
-    getAll:() => httpRequest.get('/students/all'),
-    delete:(studentId:string) => httpRequest.put(`/students/delete/${studentId}`)
-} 
+  create: (student: Student) => httpRequest.post("/students/create", student),
+  getAll: () => httpRequest.get("/students/all"),
+  update: (studentId: string, student: Student) =>
+    httpRequest.put(`/students/update/${studentId}`, student),
+  delete: (studentId: string) =>
+    httpRequest.put(`/students/delete/${studentId}`),
+};
+
+export const courseAPI = {
+  getAll: () => httpRequest.get("/courses/all"),
+};

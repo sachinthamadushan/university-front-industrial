@@ -12,4 +12,5 @@ export interface Student {
 export interface StudentProps {
     onStudentAdded:()=> void;
     editingStudent:Student|undefined;
+    cancleEdit:()=> void;
 }

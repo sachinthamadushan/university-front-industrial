@@ -1,5 +1,9 @@
+import { EnrollmentForm } from "../components/EnrollmentForm"
+
 export const EnrollmentPage = () => {
-    return <h1 className="text-3xl font-black mt-4">
-        Enrollment Page
-    </h1>
+    return (
+        <div className="p-6">
+            <EnrollmentForm/>
+        </div>
+    )
 }

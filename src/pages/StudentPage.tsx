@@ -30,6 +30,10 @@ export const StudentPage = () => {
     setEditStudent(student)
   }
 
+  const clearEditStudnet = () => {
+    setEditStudent(undefined)
+  }
+
   const deleteStudent = (studentId:string) => {
     if(window.confirm('Are you want to delete the student?')){
       const deletePromise = studentAPI.delete(studentId);
@@ -50,7 +54,8 @@ export const StudentPage = () => {
 
   return (
     <div className="p-6">
-      <StudentForm onStudentAdded={fetchStudent} editingStudent={editStudent} />
+      <StudentForm onStudentAdded={fetchStudent} editingStudent={editStudent}
+      cancleEdit={clearEditStudnet} />
 
       <div className="p-6 shadow-lg rounded-lg bg-white mt-6 overflow-x-auto">
         <h1 className="text-2xl font-bold flex items-center gap-3 mb-4">

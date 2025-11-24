@@ -4,8 +4,11 @@ import { FcGraduationCap } from "react-icons/fc";
 import type { Student, StudentProps } from "../types/student";
 import { studentAPI } from "../services/api";
 
-export const StudentForm: React.FC<StudentProps> = 
-({ onStudentAdded,editingStudent }) => {
+export const StudentForm: React.FC<StudentProps> = ({
+  onStudentAdded,
+  editingStudent,
+  cancleEdit,
+}) => {
   const [studentData, setStudentData] = useState<Student>({
     student_id: "",
     first_name: "",
@@ -15,27 +18,45 @@ export const StudentForm: React.FC<StudentProps> =
     status: 1,
   });
 
-  const isEditing:boolean = !!editingStudent; 
+  const isEditing: boolean = !!editingStudent;
 
-  useEffect(
-    () => {
-        setStudentData(
-            {
-                student_id:editingStudent?.student_id ,
-                first_name:editingStudent?.first_name,
-                last_name:editingStudent?.last_name,
-                email:editingStudent?.email,
-                dob:editingStudent?.dob? 
-                new Date(editingStudent.dob).toISOString().split('T')[0]:undefined,
-                status:1
+  useEffect(() => {
+    if (isEditing) {
+      setStudentData({
+        student_id: editingStudent?.student_id,
+        first_name: editingStudent?.first_name,
+        last_name: editingStudent?.last_name,
+        email: editingStudent?.email,
+        dob: editingStudent?.dob
+          ? new Date(editingStudent.dob).toISOString().split("T")[0]
+          : undefined,
+        status: 1,
+      });
+    }
+  }, [isEditing, editingStudent]);
+
+  const handleStudentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if(isEditing){
+        console.log(studentData)
+        const updatePromise = studentAPI.update(studentData.student_id ? studentData.student_id:""
+            ,studentData)
+        toast.promise(
+            updatePromise,
+            {loading:'Student is updating',success:'Student updated succefully'
+                , error:'Student updated failled'
+            }
+        ).then(
+            () => onStudentAdded()
+        ).catch(
+            (error) => console.error('Student updated fail', error)
+        ).finally(
+            () => {
+                resetForm()
             }
         )
-    },[isEditing,editingStudent]
-  )
-
-  const handleStudentSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const savePromise = studentAPI.create(studentData);
+    }else{
+        const savePromise = studentAPI.create(studentData);
     toast
       .promise(savePromise, {
         loading: "Student is saving...",
@@ -46,7 +67,10 @@ export const StudentForm: React.FC<StudentProps> =
       .catch((error) => {
         console.error("Student save faild", error);
       })
-      .finally(() => {resetForm()});
+      .finally(() => {
+        resetForm();
+      });
+    }
   };
 
   const resetForm = () => {
@@ -67,7 +91,7 @@ export const StudentForm: React.FC<StudentProps> =
 
   return (
     <form
-      onSubmit={handleStudentSave}
+      onSubmit={handleStudentSubmit}
       className="bg-white shadow-md p-6 rounded-lg"
     >
       <h1
@@ -75,7 +99,7 @@ export const StudentForm: React.FC<StudentProps> =
             gap-3 mb-6"
       >
         <FcGraduationCap className="w-8 h-8" />
-        <span>Add New Student</span>
+        <span>{isEditing ? "Update Student" : "Add New Student"}</span>
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
         <input
@@ -86,6 +110,7 @@ export const StudentForm: React.FC<StudentProps> =
           name="student_id"
           onChange={handleFormInputChanges}
           value={studentData.student_id}
+          disabled={isEditing}
         />
         <input
           type="text"
@@ -123,14 +148,29 @@ export const StudentForm: React.FC<StudentProps> =
           value={studentData.dob}
         />
       </div>
-      <button
-        type="submit"
-        className="bg-sky-400
+      <div className="flex items-center gap-2">
+        <button
+          type="submit"
+          className="bg-sky-400
             px-4 py-2 rounded text-white font-semibold
             hover:bg-sky-500 hover:font-bold"
-      >
-        Add Student
-      </button>
+        >
+          {isEditing ? "Update Student" : "Save Student"}
+        </button>
+        {isEditing && (
+          <button
+            onClick={() => {
+                cancleEdit()
+                resetForm()
+            }}
+            className="bg-red-400
+            px-4 py-2 rounded text-white font-semibold
+            hover:bg-red-500 hover:font-bold"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 };
