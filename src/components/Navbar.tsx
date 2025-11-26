@@ -6,7 +6,6 @@ export const Navbar = () => {
             <div className="flex justify-between items-center">
                 <Link to="/" className="text-white font-bold
                 text-2xl">University App</Link>
-                
                 <div className="space-x-3">
                 <Link to="/student" className="text-white hover:font-semibold
                 ">Student</Link>
@@ -14,7 +13,8 @@ export const Navbar = () => {
                 ">Course</Link>
                 <Link to="/enrollment" className="text-white hover:font-semibold
                 ">Enrollment</Link>
-
+                <Link to="/login" className="text-white hover:font-semibold
+                bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded">Login</Link>
                 </div>
             </div>
         </nav>

@@ -6,6 +6,7 @@ import { StudentPage } from "./pages/StudentPage";
 import { CoursePage } from "./pages/CoursePage";
 import { EnrollmentPage } from "./pages/EnrollmentPage";
 import { Toaster } from "react-hot-toast";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/student" element={<StudentPage/>}></Route>
           <Route path="/course" element={<CoursePage/>}></Route>
           <Route path="/enrollment" element={<EnrollmentPage/>}></Route>
+          <Route path="/login" element={<LoginPage/>}></Route>
         </Routes>
       </main>
       <footer>
