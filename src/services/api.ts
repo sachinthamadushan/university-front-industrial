@@ -24,5 +24,6 @@ export const courseAPI = {
 
 export const enrollmentAPI = {
   create: (enrollment:Enrollment) => httpRequest.post('/enrollments/create',enrollment),
-  getAll: () => httpRequest.get('/enrollments/all')
+  getAll: () => httpRequest.get('/enrollments/all'),
+  delete: (enrollId:number) => httpRequest.delete(`/enrollments/delete/${enrollId}`)
 }

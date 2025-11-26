@@ -4,7 +4,7 @@ export interface Student {
     first_name:string | undefined;
     last_name:string | undefined;
     email:string | undefined;
-    dob:string | undefined;
+    dob?:string | undefined;
     status:number | undefined;
     
 }
