@@ -1,10 +1,11 @@
 import { useState, type ChangeEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { User } from "../types/user";
 import { userAPI } from "../services/api";
 import toast from "react-hot-toast";
 
 const RegistrationPage = () => {
+  const navigate =  useNavigate();
   const [userform, setUserForm] = useState<User>({
     username: "",
     password: "",
@@ -28,10 +29,14 @@ const RegistrationPage = () => {
       }
     ).then(
       () => { 
-        // redirect into login
+        navigate('/login')
       }
     ).catch(
       (error) => console.error(`User registration faild ${error.message}`)
+    ).finally(
+      () => {
+        setUserForm({username:'',password:'',confirmPassword:''})
+      }
     )
   };
 
