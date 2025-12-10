@@ -2,5 +2,5 @@
 export interface User {
     username:string,
     password:string,
-    confirmPassword:string
+    confirmPassword?:string
 }

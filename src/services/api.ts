@@ -30,5 +30,6 @@ export const enrollmentAPI = {
 }
 
 export const userAPI = {
-  create: (user:User) => httpRequest.post('/users/create',user)
+  create: (user:User) => httpRequest.post('/users/create',user),
+  login: (user:User) => httpRequest.post('/users/login',user)
 }
