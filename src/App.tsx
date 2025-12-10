@@ -9,43 +9,68 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import { LoginProvider } from "./context/LoginContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
     <LoginProvider>
       <div className="bg-sky-50  min-h-screen">
-      <header>
-        <Navbar/>
-      </header>
-      <Toaster
-        position="top-center"
-        toastOptions={
-          {
-            duration:3000,
-            style:{background:'#363636', color:'white'},
-            success:{
-              duration:2500,
-              iconTheme:{primary:'green', secondary:'black'}
-            }
-          }
-        }
-      />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage/>}></Route>
-          <Route path="/student" element={<StudentPage/>}></Route>
-          <Route path="/course" element={<CoursePage/>}></Route>
-          <Route path="/enrollment" element={<EnrollmentPage/>}></Route>
-          <Route path="/login" element={<LoginPage/>}></Route>
-          <Route path="/register" element={<RegistrationPage/>}></Route>
-        </Routes>
-      </main>
-      <footer>
+        <header>
+          <Navbar />
+        </header>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: { background: "#363636", color: "white" },
+            success: {
+              duration: 2500,
+              iconTheme: { primary: "green", secondary: "black" },
+            },
+          }}
+        />
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/student"
+              element={
+                <ProtectedRoute>
+                  <StudentPage />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/course"
+              element={
+                <ProtectedRoute>
+                  <CoursePage />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/enrollment"
+              element={
+                <ProtectedRoute>
+                  <EnrollmentPage />
+                </ProtectedRoute>
+              }
+            ></Route>
 
-      </footer>
-    </div>
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/register" element={<RegistrationPage />}></Route>
+          </Routes>
+        </main>
+        <footer></footer>
+      </div>
     </LoginProvider>
-    
   );
 }
 
