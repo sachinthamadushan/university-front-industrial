@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type InternalAxiosRequestConfig } from "axios";
 import type { Student } from "../types/student";
 import type { Enrollment } from "../types/enrollment";
 import type { User } from "../types/user";
@@ -9,6 +9,19 @@ const httpRequest = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+httpRequest.interceptors.request.use(
+  (config:InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem('token');
+    if(token){
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error) 
+  }
+);
 
 export const studentAPI = {
   create: (student: Student) => httpRequest.post("/students/create", student),
