@@ -8,10 +8,12 @@ import { EnrollmentPage } from "./pages/EnrollmentPage";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
+import { LoginProvider } from "./context/LoginContext";
 
 function App() {
   return (
-    <div className="bg-sky-50  min-h-screen">
+    <LoginProvider>
+      <div className="bg-sky-50  min-h-screen">
       <header>
         <Navbar/>
       </header>
@@ -42,6 +44,8 @@ function App() {
 
       </footer>
     </div>
+    </LoginProvider>
+    
   );
 }
 

@@ -1,11 +1,12 @@
 import React, { useState, type ChangeEvent } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type { User } from "../types/user";
 import { userAPI } from "../services/api";
 import toast from "react-hot-toast";
+import {useLogin}  from "../context/LoginContext";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const {login} = useLogin();
   const [loginData, setLoginData] = useState<User>({
     username: "",
     password: "",
@@ -29,11 +30,8 @@ const LoginPage = () => {
     ).then(
       (response) => {
         // redirect home
-        console.log(response);
         if(response.status === 200 && response.statusText === 'OK'){
-          localStorage.setItem('token',response.data.token)
-          localStorage.setItem('username',response.data.username)
-          navigate('/');
+          login(response.data.token,response.data.username);
         }
       }
     ).catch(

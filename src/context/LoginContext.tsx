@@ -11,7 +11,7 @@ interface LoginContextType {
     logout : () => void;
 }
 const LoginContext = createContext<LoginContextType|undefined>(undefined);
-
+console.log(LoginContext);
 interface LoginProviderProps  {
     children: ReactNode
 }
@@ -48,13 +48,15 @@ export const LoginProvider : React.FC<LoginProviderProps> = ({children}) => {
         <LoginContext.Provider value={{user,login,logout}}>
             {children}
         </LoginContext.Provider>
-    )
+    );
+    
 }
-
 export const useLogin = () : LoginContextType => {
     const context = useContext(LoginContext);
+    console.log(context);
     if(context === undefined){
         throw new Error('login auth error')
     }
+
     return context;
 }
